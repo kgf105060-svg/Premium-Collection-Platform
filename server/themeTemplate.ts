@@ -1,0 +1,2250 @@
+/**
+ * Premium Collection Blogger XML Theme Generator
+ * 100% Valid Blogger XML Template ready for Blogger -> Theme -> Restore -> Upload
+ */
+
+export interface ThemeConfig {
+  siteName: string;
+  siteSubtitle: string;
+  telegramUrl: string;
+  contactEmail: string;
+  apiBaseUrl: string;
+  primaryColor: string;
+  defaultRequiredAds: number;
+}
+
+export const DEFAULT_THEME_CONFIG: ThemeConfig = {
+  siteName: "প্রিমিয়াম কালেকশন",
+  siteSubtitle: "Premium Collection Platform",
+  telegramUrl: "https://t.me/YOUR_TELEGRAM_CHANNEL",
+  contactEmail: "tamimishan04@gmail.com",
+  apiBaseUrl: "", // Will use window.location.origin if empty
+  primaryColor: "#6366f1",
+  defaultRequiredAds: 3,
+};
+
+export function generateBloggerXml(
+  config: ThemeConfig = DEFAULT_THEME_CONFIG,
+  adNetworks?: any[],
+  bannerAds?: any[]
+): string {
+  const currentYear = new Date().getFullYear();
+
+  const defaultNetworks = [
+    {
+      id: 'net_1',
+      name: 'Monetag',
+      enabled: true,
+      priority: 1,
+      placement: 'Direct Link / Interstitial SDK',
+      config: {
+        adFormat: 'direct_link',
+        directUrl: 'https://omg10.com/4/9272136',
+        zoneId: '11699704',
+        dataZone: '11699704',
+        dataSdk: 'show_11699704',
+        scriptUrl: '//libtl.com/sdk.js',
+        sdkTag: "<script src='//libtl.com/sdk.js' data-zone='11699704' data-sdk='show_11699704'></script>",
+        openInNewTab: true,
+        countdownSeconds: 5,
+        note: 'Monetag high-CPM smartlink & rewarded interstitial provider (Zone 11699704)',
+      },
+    },
+    {
+      id: 'net_2',
+      name: 'Bengal Ads',
+      enabled: true,
+      priority: 2,
+      placement: 'Rewarded SmartLink / Loader',
+      config: {
+        adFormat: 'direct_link',
+        directUrl: 'https://bengalads.net/smartlink?zone=884&source=blogger',
+        zoneId: 'BG_ADS_ZONE_884',
+        scriptUrl: 'https://bengalads.net/tag/loader.js',
+        openInNewTab: true,
+        countdownSeconds: 5,
+        note: 'Targeted Bangladeshi high-CPM rewarded ad network',
+      },
+    },
+    {
+      id: 'net_3',
+      name: 'GigaPub',
+      enabled: true,
+      priority: 3,
+      placement: 'Native Offer / Direct Link',
+      config: {
+        adFormat: 'direct_link',
+        directUrl: 'https://gigapub.com/r/gp_49012',
+        zoneId: 'GP_49012',
+        token: 'gp_pub_token_99182',
+        openInNewTab: true,
+        countdownSeconds: 5,
+        note: 'GigaPub global publisher network with high fill-rate',
+      },
+    },
+    {
+      id: 'net_4',
+      name: 'AdsGram',
+      enabled: true,
+      priority: 4,
+      placement: 'AdsGram SDK & Web Block',
+      config: {
+        adFormat: 'adsgram_sdk',
+        directUrl: 'https://t.me/AdsgramBot?start=reward_4821',
+        blockId: '4821',
+        scriptUrl: 'https://sad.adsgram.ai/js/sad.min.js',
+        openInNewTab: true,
+        countdownSeconds: 6,
+        note: 'Official AdsGram rewarded video SDK for Telegram and Web',
+      },
+    },
+  ];
+
+  const activeNets = (adNetworks && adNetworks.length > 0 ? adNetworks : defaultNetworks).filter((n) => n.enabled !== false);
+  const serializedNetworks = JSON.stringify(activeNets);
+
+  const defaultBanners = [
+    {
+      placement: 'header',
+      code: '<div style="background:linear-gradient(90deg,#4f46e5,#9333ea);color:#fff;padding:12px;border-radius:8px;font-weight:bold;text-align:center;">🔥 প্রিমিয়াম স্পনসরড অফার — আজই জয়েন করুন আমাদের টেলিগ্রাম চ্যানেলে!</div>'
+    },
+    {
+      placement: 'inside_post',
+      code: '<div style="background:#1e1b4b;border:1px solid #6366f1;color:#e0e7ff;padding:14px;border-radius:8px;text-align:center;">⚡ দ্রুত ডাউনলোড ও বাফারলেস ভিডিওর জন্য অ্যাপটি ইন্সটল করুন!</div>'
+    }
+  ];
+  const serializedBanners = JSON.stringify(bannerAds && bannerAds.length > 0 ? bannerAds : defaultBanners);
+
+  return `<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=5.0' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+  
+  <b:include data='blog' name='all-head-content'/>
+  
+  <!-- SEO & OpenGraph -->
+  <meta expr:content='data:blog.metaDescription' name='description'/>
+  <meta expr:content='data:blog.pageTitle' property='og:title'/>
+  <meta expr:content='data:blog.canonicalUrl' property='og:url'/>
+  <meta expr:content='data:blog.title' property='og:site_name'/>
+  <meta content='summary_large_image' name='twitter:card'/>
+  <meta expr:content='data:blog.pageTitle' name='twitter:title'/>
+  
+  <!-- Monetag Official Rewarded Interstitial SDK (Zone 11699704) -->
+  <script src='https://libtl.com/sdk.js' data-zone='11699704' data-sdk='show_11699704'></script>
+
+  <!-- AdsGram Official Rewarded Video SDK for Telegram and Web -->
+  <script src='https://sad.adsgram.ai/js/sad.min.js'></script>
+
+  <!-- Google Fonts: Hind Siliguri (Bengali) & Inter -->
+  <link href='https://fonts.googleapis.com' rel='preconnect'/>
+  <link crossorigin='anonymous' href='https://fonts.gstatic.com' rel='preconnect'/>
+  <link href='https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap' rel='stylesheet'/>
+
+  <b:skin version='1.3.0'><![CDATA[
+  /*
+  -----------------------------------------------
+  Theme Name: Premium Collection (প্রিমিয়াম কালেকশন)
+  Description: Modern Video & Content Collection Blogger XML Theme
+  Author: Premium Collection Team
+  Version: 2.5.0 (Production Ready)
+  -----------------------------------------------
+  */
+  
+  :root {
+    --font-bengali: 'Hind Siliguri', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-heading: 'Inter', 'Hind Siliguri', sans-serif;
+    
+    /* Light Theme (Default) */
+    --bg-page: #f4f5f9;
+    --bg-surface: #ffffff;
+    --bg-surface-alt: #f8fafc;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border-color: #e2e8f0;
+    --border-subtle: #f1f5f9;
+    
+    /* Brand Gradients & Accents */
+    --header-bg: linear-gradient(135deg, #090d16 0%, #171128 50%, #2a124a 100%);
+    --primary-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 50%, #ec4899 100%);
+    --card-hover-border: #c084fc;
+    --accent-purple: #8b5cf6;
+    --accent-pink: #ec4899;
+    --accent-blue: #3b82f6;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+  }
+
+  /* Dark Theme */
+  body.dark-mode {
+    --bg-page: #0b0f19;
+    --bg-surface: #131b2e;
+    --bg-surface-alt: #1a243b;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --border-color: #1e293b;
+    --border-subtle: #192237;
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: var(--font-bengali);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+    padding-bottom: 70px; /* Space for mobile floating nav */
+  }
+
+  @media (min-width: 651px) {
+    body {
+      padding-bottom: 0;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  button, input {
+    font-family: inherit;
+    outline: none;
+    border: none;
+  }
+
+  /* ==================================================
+     STICKY HEADER
+     ================================================== */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--header-bg);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .header-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .icon-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .icon-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6366f1, #d946ef, #ec4899);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(217, 70, 239, 0.4);
+    flex-shrink: 0;
+  }
+
+  .logo-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: #ffffff;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    background: linear-gradient(90deg, #ffffff, #f3e8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .brand-subtitle {
+    font-size: 0.7rem;
+    color: #cbd5e1;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* SEARCH BOX BAR */
+  .search-dropdown {
+    display: none;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    box-shadow: var(--shadow-md);
+    animation: slideDown 0.2s ease;
+  }
+
+  .search-dropdown.active {
+    display: block;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .search-form-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    background: var(--bg-surface-alt);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-full);
+    padding: 0.25rem 0.5rem 0.25rem 1rem;
+    transition: border-color 0.2s ease;
+  }
+
+  .search-form-inner:focus-within {
+    border-color: var(--accent-purple);
+  }
+
+  .search-input {
+    width: 100%;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    padding: 0.5rem 0.25rem;
+  }
+
+  .search-submit-btn {
+    background: var(--primary-gradient);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* ==================================================
+     SIDE MENU (DRAWER)
+     ================================================== */
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 85vw;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    z-index: 2000;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .drawer.active {
+    transform: translateX(0);
+  }
+
+  .drawer-header {
+    background: var(--header-bg);
+    color: #ffffff;
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .drawer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .drawer-close {
+    align-self: flex-end;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: -0.5rem;
+  }
+
+  .drawer-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 1;
+  }
+
+  .drawer-section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Appearance toggle card */
+  .appearance-card {
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .appearance-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .appearance-icon {
+    font-size: 1.3rem;
+  }
+
+  .appearance-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  .appearance-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* Toggle Switch */
+  .switch-toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  .switch-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e1;
+    transition: 0.3s;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background: var(--primary-gradient);
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+
+  .drawer-menu-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .drawer-link:hover, .drawer-link:active {
+    background: var(--bg-surface-alt);
+    color: var(--accent-purple);
+    transform: translateX(4px);
+  }
+
+  .drawer-icon {
+    font-size: 1.15rem;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ==================================================
+     CATEGORY PILL SYSTEM
+     ================================================== */
+  .category-container {
+    max-width: 1240px;
+    margin: 1rem auto 0;
+    padding: 0 1rem;
+  }
+
+  .category-scroll {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .category-scroll::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1.5px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .cat-pill:hover {
+    border-color: var(--accent-purple);
+    color: var(--accent-purple);
+  }
+
+  .cat-pill.active {
+    background: var(--primary-gradient);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(217, 70, 239, 0.35);
+  }
+
+  /* ==================================================
+     MAIN LAYOUT & SECTION
+     ================================================== */
+  .main-wrapper {
+    max-width: 1240px;
+    margin: 1.25rem auto 2rem;
+    padding: 0 1rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .section-title svg {
+    color: var(--accent-pink);
+  }
+
+  /* ==================================================
+     VIDEO GRID (RESPONSIVE)
+     ================================================== */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+
+  /* Narrow Mobile Fallback */
+  @media (max-width: 360px) {
+    .video-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 651px) and (max-width: 1024px) {
+    .video-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  /* Desktop */
+  @media (min-width: 1025px) {
+    .video-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  /* ==================================================
+     VIDEO POST CARD
+     ================================================== */
+  .video-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+  }
+
+  .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--card-hover-border);
+  }
+
+  .card-thumb-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background: #0f172a;
+    overflow: hidden;
+  }
+
+  .card-thumb-wrap img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .video-card:hover .card-thumb-wrap img {
+    transform: scale(1.06);
+  }
+
+  .thumb-fallback {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1e1b4b 0%, #3b0764 50%, #4c0519 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .thumb-fallback svg {
+    width: 48px;
+    height: 48px;
+    fill: rgba(255, 255, 255, 0.4);
+  }
+
+  .play-badge-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 42px;
+    height: 42px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    opacity: 0.9;
+    transition: all 0.25s ease;
+  }
+
+  .video-card:hover .play-badge-center {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: var(--primary-gradient);
+    opacity: 1;
+  }
+
+  .duration-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    backdrop-filter: blur(2px);
+    letter-spacing: 0.04em;
+  }
+
+  .card-body {
+    padding: 0.75rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .video-card:hover .card-title {
+    color: var(--accent-purple);
+  }
+
+  .card-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 0.45rem;
+  }
+
+  .card-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .card-share-btn {
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.2rem;
+    border-radius: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .card-share-btn:hover {
+    color: var(--accent-pink);
+  }
+
+  /* ==================================================
+     SINGLE POST PAGE LAYOUT
+     ================================================== */
+  .post-detail-container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb-nav a {
+    color: var(--accent-purple);
+    font-weight: 500;
+  }
+
+  .post-main-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text-primary);
+    margin-bottom: 0.85rem;
+  }
+
+  @media (min-width: 651px) {
+    .post-main-title {
+      font-size: 1.85rem;
+    }
+  }
+
+  .post-meta-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  .post-meta-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* Information / Warning Box */
+  .notice-box {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%);
+    border-left: 4px solid var(--accent-purple);
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1.15rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .notice-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  /* ==================================================
+     MULTI-PART VIDEO SECTION
+     ================================================== */
+  .video-part-card {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .video-part-header {
+    background: var(--header-bg);
+    color: #ffffff;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .part-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .part-header-right {
+    font-size: 0.8rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.2rem 0.65rem;
+    border-radius: var(--radius-full);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  /* Responsive YouTube 16:9 Video Player Container */
+  .player-responsive-container,
+  .youtube-16-9-box .player-responsive-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
+    background: #000000;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .player-responsive-container iframe,
+  .player-responsive-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    outline: none;
+  }
+
+  .youtube-theater-mode {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* ==================================================
+     SERVER-SIDE AD UNLOCK EXPERIENCE
+     ================================================== */
+  .unlock-overlay-container {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(11, 15, 25, 0.95), rgba(26, 17, 48, 0.95));
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    color: #ffffff;
+    z-index: 10;
+  }
+
+  .unlock-badge-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 4px 20px rgba(217, 70, 239, 0.5);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .unlock-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+
+  .unlock-desc {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    max-width: 320px;
+    margin-bottom: 1.25rem;
+  }
+
+  .unlock-progress-wrap {
+    width: 100%;
+    max-width: 280px;
+    margin-bottom: 1.25rem;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+  }
+
+  .progress-bar-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+
+  .watch-ad-btn {
+    background: var(--primary-gradient);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .watch-ad-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+  }
+
+  .watch-ad-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ==================================================
+     POST BODY TYPOGRAPHY
+     ================================================== */
+  .post-body-content {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-primary);
+  }
+
+  .post-body-content p {
+    margin-bottom: 1.25rem;
+  }
+
+  .post-body-content h2, .post-body-content h3 {
+    margin: 1.5rem 0 0.85rem;
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .post-body-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: var(--radius-md);
+    margin: 1rem 0;
+  }
+
+  .post-body-content iframe {
+    max-width: 100%;
+  }
+
+  /* ==================================================
+     BANNER AD CONTAINERS
+     ================================================== */
+  .banner-slot {
+    margin: 1.25rem auto;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .banner-slot-inner {
+    display: inline-block;
+    max-width: 100%;
+    min-height: 50px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* ==================================================
+     PAGINATION
+     ================================================== */
+  .pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .page-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.35rem;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
+  }
+
+  .page-nav-btn:hover {
+    border-color: var(--accent-purple);
+    color: var(--accent-purple);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ==================================================
+     FOOTER
+     ================================================== */
+  .site-footer {
+    background: var(--header-bg);
+    color: #ffffff;
+    padding: 2.5rem 1rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+  }
+
+  .footer-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.25rem;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .footer-links a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  .footer-copy {
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+
+  /* ==================================================
+     MOBILE FLOATING BOTTOM NAV
+     ================================================== */
+  .mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 12px;
+    left: 16px;
+    right: 16px;
+    height: 58px;
+    background: rgba(13, 17, 23, 0.94);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-full);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 0.5rem;
+  }
+
+  @media (max-width: 650px) {
+    .mobile-bottom-nav {
+      display: flex;
+    }
+  }
+
+  .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 0.65rem;
+    font-weight: 600;
+    gap: 2px;
+    cursor: pointer;
+    flex: 1;
+    transition: color 0.2s ease;
+  }
+
+  .bottom-nav-item.active, .bottom-nav-item:hover {
+    color: #f472b6;
+  }
+
+  .bottom-nav-item svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* TOAST FEEDBACK */
+  .toast-popup {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #0f172a;
+    color: #ffffff;
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 3000;
+  }
+
+  .toast-popup.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+  ]]></b:skin>
+
+  <b:template-skin><![CDATA[]]></b:template-skin>
+</head>
+
+<body>
+  <!-- STICKY HEADER -->
+  <header class='site-header' id='siteHeader'>
+    <div class='header-container'>
+      <div class='header-left'>
+        <button aria-label='Open Menu' class='icon-btn' id='menuOpenBtn' type='button'>
+          <svg fill='none' height='22' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' width='22'>
+            <line x1='3' x2='21' y1='12' y2='12'/>
+            <line x1='3' x2='21' y1='6' y2='6'/>
+            <line x1='3' x2='21' y1='18' y2='18'/>
+          </svg>
+        </button>
+
+        <a class='brand-logo' expr:href='data:blog.homepageUrl'>
+          <div class='logo-icon'>
+            <svg viewBox='0 0 24 24'>
+              <path d='M12 2L2 12l10 10 10-10L12 2zm0 4.5l5.5 5.5-5.5 5.5-5.5-5.5L12 6.5z'/>
+            </svg>
+          </div>
+          <div class='brand-text'>
+            <span class='brand-title'>${config.siteName}</span>
+            <span class='brand-subtitle'>${config.siteSubtitle}</span>
+          </div>
+        </a>
+      </div>
+
+      <div class='header-right'>
+        <button aria-label='Search' class='icon-btn' id='searchToggleBtn' type='button'>
+          <svg fill='none' height='20' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' width='20'>
+            <circle cx='11' cy='11' r='8'/>
+            <line x1='21' x2='16.65' y1='21' y2='16.65'/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- SEARCH BAR DROPDOWN -->
+    <div class='search-dropdown' id='searchDropdown'>
+      <form action='/search' class='search-form-inner' method='get'>
+        <input aria-label='Search videos' class='search-input' id='searchInputField' name='q' placeholder='ভিডিও সার্চ করুন...' type='text'/>
+        <button class='search-submit-btn' type='submit'>
+          <span>খুঁজুন</span>
+          <svg fill='none' height='16' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' width='16'>
+            <circle cx='11' cy='11' r='8'/>
+            <line x1='21' x2='16.65' y1='21' y2='16.65'/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </header>
+
+  <!-- MOBILE SIDE DRAWER -->
+  <div class='drawer-overlay' id='drawerOverlay'/>
+  <aside class='drawer' id='sideDrawer'>
+    <div class='drawer-header'>
+      <button aria-label='Close Menu' class='drawer-close' id='drawerCloseBtn' type='button'>✕</button>
+      <div class='drawer-brand'>
+        <div class='logo-icon'>
+          <svg viewBox='0 0 24 24'>
+            <path d='M12 2L2 12l10 10 10-10L12 2zm0 4.5l5.5 5.5-5.5 5.5-5.5-5.5L12 6.5z'/>
+          </svg>
+        </div>
+        <div class='brand-text'>
+          <span class='brand-title' style='color:#fff;'>${config.siteName}</span>
+          <span class='brand-subtitle'>${config.siteSubtitle}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class='drawer-content'>
+      <div>
+        <div class='drawer-section-title'>APPEARANCE</div>
+        <div class='appearance-card'>
+          <div class='appearance-left'>
+            <span class='appearance-icon' id='themeModeIcon'>☀️</span>
+            <div>
+              <div class='appearance-title' id='themeModeLabel'>Light Theme</div>
+              <div class='appearance-sub' id='themeModeSub'>Switch to Dark</div>
+            </div>
+          </div>
+          <label class='switch-toggle' for='themeToggleSwitch'>
+            <input aria-label='Toggle theme mode' id='themeToggleSwitch' type='checkbox'/>
+            <span class='slider'/>
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <div class='drawer-section-title'>NAVIGATION</div>
+        <ul class='drawer-menu-list'>
+          <li>
+            <a class='drawer-link' expr:href='data:blog.homepageUrl'>
+              <span class='drawer-icon'>🏠</span>
+              <span>Home (মূল পাতা)</span>
+            </a>
+          </li>
+          <li>
+            <button class='drawer-link' id='copySiteLinkBtn' style='width:100%;text-align:left;' type='button'>
+              <span class='drawer-icon'>🔗</span>
+              <span>Copy Site Link</span>
+            </button>
+          </li>
+          <li>
+            <button class='drawer-link' id='shareSiteBtn' style='width:100%;text-align:left;' type='button'>
+              <span class='drawer-icon'>↗</span>
+              <span>Share Website</span>
+            </button>
+          </li>
+          <li>
+            <a class='drawer-link' href='${config.telegramUrl}' rel='noopener noreferrer' target='_blank'>
+              <span class='drawer-icon'>✈</span>
+              <span>Telegram Channel</span>
+            </a>
+          </li>
+          <li>
+            <a class='drawer-link' href='mailto:${config.contactEmail}'>
+              <span class='drawer-icon'>✉</span>
+              <span>Contact Us</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- BANNER AD: HEADER -->
+  <div class='banner-slot' id='banner-header'/>
+
+  <!-- CATEGORY NAVIGATION PILLS -->
+  <div class='category-container'>
+    <nav aria-label='Categories' class='category-scroll' id='categoryScrollList'>
+      <a class='cat-pill active' expr:href='data:blog.homepageUrl'>সকল (All)</a>
+      <a class='cat-pill' href='/search/label/Trending'>🔥 Trending</a>
+      <a class='cat-pill' href='/search/label/Viral'>⚡ Viral</a>
+      <a class='cat-pill' href='/search/label/Bangladeshi'>🇧🇩 Bangladeshi</a>
+      <a class='cat-pill' href='/search/label/Indian'>🇮🇳 Indian</a>
+      <a class='cat-pill' href='/search/label/University'>🎓 University</a>
+      <a class='cat-pill' href='/search/label/College'>🏫 College</a>
+      <a class='cat-pill' href='/search/label/TikTok'>🎵 TikTok</a>
+      <a class='cat-pill' href='/search/label/News'>📰 News</a>
+    </nav>
+  </div>
+
+  <!-- BANNER AD: BELOW HEADER -->
+  <div class='banner-slot' id='banner-below-header'/>
+
+  <!-- MAIN BLOG SECTION -->
+  <main class='main-wrapper'>
+    <b:section class='main-content' id='main-content' showaddelement='no'>
+      <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='2'>
+        <b:includable id='main' var='top'>
+          
+          <!-- HOMEPAGE & ARCHIVE VIEWS -->
+          <b:if cond='data:blog.pageType != &quot;item&quot;'>
+            <div class='section-header'>
+              <h2 class='section-title'>
+                <svg fill='currentColor' height='20' viewBox='0 0 24 24' width='20'>
+                  <path d='M12 23a7.5 7.5 0 0 1-5.138-12.963C8.204 8.774 11.5 6.5 11 1.5c6 4 9 8 3 14 1 0 2.5 0 5-2.47.27.7.77 2.3.138 3.97A7.5 7.5 0 0 1 12 23z'/>
+                </svg>
+                <span>Most Popular Videos (জনপ্রিয় ভিডিও)</span>
+              </h2>
+            </div>
+
+            <div class='video-grid'>
+              <b:loop values='data:posts' var='post'>
+                <article class='video-card'>
+                  <a class='card-thumb-wrap' expr:href='data:post.url'>
+                    <b:if cond='data:post.firstImageUrl'>
+                      <img alt='Thumbnail' expr:src='data:post.firstImageUrl' loading='lazy'/>
+                    <b:else/>
+                      <div class='thumb-fallback'>
+                        <svg viewBox='0 0 24 24'>
+                          <path d='M12 2L2 12l10 10 10-10L12 2zm0 4.5l5.5 5.5-5.5 5.5-5.5-5.5L12 6.5z'/>
+                        </svg>
+                      </div>
+                    </b:if>
+                    <div class='play-badge-center'>
+                      <svg fill='currentColor' height='20' viewBox='0 0 24 24' width='20'>
+                        <polygon points='5 3 19 12 5 21 5 3'/>
+                      </svg>
+                    </div>
+                    <span class='duration-badge'>03:45</span>
+                  </a>
+
+                  <div class='card-body'>
+                    <a expr:href='data:post.url'>
+                      <h3 class='card-title'><data:post.title/></h3>
+                    </a>
+
+                    <div class='card-meta-row'>
+                      <div class='card-stats'>
+                        <span class='stat-item'>👁 2.8K</span>
+                        <span class='stat-item'>👍 340</span>
+                      </div>
+                      <button aria-label='Share video' class='card-share-btn' expr:data-title='data:post.title' expr:data-url='data:post.url' onclick='handlePostShare(this)' type='button'>
+                        <svg fill='none' height='16' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' width='16'>
+                          <circle cx='18' cy='5' r='3'/>
+                          <circle cx='6' cy='12' r='3'/>
+                          <circle cx='18' cy='19' r='3'/>
+                          <line x1='8.59' x2='15.42' y1='13.51' y2='17.49'/>
+                          <line x1='15.41' x2='8.59' y1='6.51' y2='10.49'/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </b:loop>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class='pagination-container'>
+              <b:if cond='data:newerPageUrl'>
+                <a class='page-nav-btn' expr:href='data:newerPageUrl'>
+                  <span>← Newer Posts</span>
+                </a>
+              </b:if>
+              <b:if cond='data:olderPageUrl'>
+                <a class='page-nav-btn' expr:href='data:olderPageUrl'>
+                  <span>Older Posts →</span>
+                </a>
+              </b:if>
+            </div>
+          </b:if>
+
+          <!-- SINGLE POST PAGE VIEW -->
+          <b:if cond='data:blog.pageType == &quot;item&quot;'>
+            <b:loop values='data:posts' var='post'>
+              <article class='post-detail-container'>
+                <!-- Breadcrumbs -->
+                <nav class='breadcrumb-nav'>
+                  <a expr:href='data:blog.homepageUrl'>Home</a>
+                  <span>/</span>
+                  <b:if cond='data:post.labels'>
+                    <b:loop values='data:post.labels' var='label'>
+                      <a expr:href='data:label.url'><data:label.name/></a>
+                      <span>/</span>
+                    </b:loop>
+                  </b:if>
+                  <span><data:post.title/></span>
+                </nav>
+
+                <h1 class='post-main-title'><data:post.title/></h1>
+
+                <div class='post-meta-bar'>
+                  <span class='post-meta-badge'>👁 <strong>3.4K</strong> Views</span>
+                  <span class='post-meta-badge'>👍 <strong>420</strong> Likes</span>
+                  <span class='post-meta-badge'>◷ <strong>05:20</strong></span>
+                  <span class='post-meta-badge'>📅 <data:post.date/></span>
+                </div>
+
+                <!-- BANNER AD: ABOVE VIDEO -->
+                <div class='banner-slot' id='banner-above-video'/>
+
+                <!-- Information Notice Box -->
+                <div class='notice-box'>
+                  <span class='notice-icon'>💡</span>
+                  <div>
+                    ভিডিও দেখতে নিচের ভিডিও প্লেয়ার ব্যবহার করুন।
+                    ভিডিও লোড না হলে কয়েক সেকেন্ড অপেক্ষা করে আবার চেষ্টা করুন।
+                  </div>
+                </div>
+
+                <!-- MULTI-PART VIDEO CONTAINER 1 -->
+                <section class='video-part-card' data-part='1' id='videoPart1Container'>
+                  <div class='video-part-header'>
+                    <div class='part-header-left'>
+                      <span>▶ ভিডিও ১</span>
+                    </div>
+                    <span class='part-header-right'>Video Part 1</span>
+                  </div>
+
+                  <div class='player-responsive-container' id='playerContainer1'>
+                    <!-- AD UNLOCK OVERLAY (Active until server confirms unlock) -->
+                    <div class='unlock-overlay-container' id='unlockOverlay1'>
+                      <div class='unlock-badge-icon'>
+                        <svg fill='currentColor' height='26' viewBox='0 0 24 24' width='26'>
+                          <path d='M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z'/>
+                        </svg>
+                      </div>
+                      <h4 class='unlock-title'>ভিডিও লক করা আছে (Video Locked)</h4>
+                      <p class='unlock-desc'>ভিডিওটি দেখতে অনুগ্রহ করে নিচে থাকা বিজ্ঞাপনটি সম্পূর্ণ দেখুন।</p>
+                      
+                      <div class='unlock-progress-wrap'>
+                        <div class='progress-info'>
+                          <span>বিজ্ঞাপন সম্পন্ন:</span>
+                          <span id='adProgressText1'>0 / ${config.defaultRequiredAds}</span>
+                        </div>
+                        <div class='progress-bar-track'>
+                          <div class='progress-bar-fill' id='adProgressBar1' style='width: 0%;'/>
+                        </div>
+                      </div>
+
+                      <button class='watch-ad-btn' id='watchAdBtn1' onclick='startServerAdWatch(1)' type='button'>
+                        <svg fill='currentColor' height='18' viewBox='0 0 24 24' width='18'>
+                          <polygon points='5 3 19 12 5 21 5 3'/>
+                        </svg>
+                        <span>বিজ্ঞাপন দেখুন (Watch Ad)</span>
+                      </button>
+                    </div>
+
+                    <!-- Target Video Player (Revealed after server unlock) -->
+                    <div id='actualVideoMount1' style='display:none;width:100%;height:100%;'>
+                      <iframe allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen='true' frameborder='0' height='100%' id='targetIframe1' src='about:blank' width='100%'/>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- BANNER AD: INSIDE POST -->
+                <div class='banner-slot' id='banner-inside-post'/>
+
+                <!-- Post Body Content -->
+                <div class='post-body-content' id='postBodyContent'>
+                  <data:post.body/>
+                </div>
+
+                <!-- BANNER AD: BELOW VIDEO -->
+                <div class='banner-slot' id='banner-below-video'/>
+              </article>
+            </b:loop>
+          </b:if>
+
+        </b:includable>
+        <!-- Standard Blogger Includables for Universal Theme Compatibility -->
+        <b:includable id='post' var='post'/>
+        <b:includable id='comments' var='post'/>
+        <b:includable id='comment-form' var='post'/>
+        <b:includable id='feedLinks'/>
+        <b:includable id='status-message'/>
+      </b:widget>
+    </b:section>
+  </main>
+
+  <!-- BANNER AD: FOOTER -->
+  <div class='banner-slot' id='banner-footer'/>
+
+  <!-- FOOTER -->
+  <footer class='site-footer'>
+    <div class='footer-inner'>
+      <div class='brand-logo'>
+        <div class='logo-icon'>
+          <svg viewBox='0 0 24 24'>
+            <path d='M12 2L2 12l10 10 10-10L12 2zm0 4.5l5.5 5.5-5.5 5.5-5.5-5.5L12 6.5z'/>
+          </svg>
+        </div>
+        <div class='brand-text' style='text-align:left;'>
+          <span class='brand-title' style='color:#fff;'>${config.siteName}</span>
+          <span class='brand-subtitle'>${config.siteSubtitle}</span>
+        </div>
+      </div>
+
+      <div class='footer-links'>
+        <a expr:href='data:blog.homepageUrl'>মূল পাতা</a>
+        <a href='/search/label/Trending'>ট্রেন্ডিং</a>
+        <a href='${config.telegramUrl}' rel='noopener noreferrer' target='_blank'>টেলিগ্রাম চ্যানেল</a>
+        <a href='mailto:${config.contactEmail}'>যোগাযোগ</a>
+      </div>
+
+      <div class='footer-copy'>
+        &#169; <span id='footerCurrentYear'>${currentYear}</span> ${config.siteName}. সর্বস্বত্ব সংরক্ষিত (All rights reserved).
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE FLOATING BOTTOM NAVIGATION -->
+  <nav aria-label='Mobile Navigation' class='mobile-bottom-nav'>
+    <a class='bottom-nav-item active' expr:href='data:blog.homepageUrl'>
+      <svg fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'>
+        <path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/>
+        <polyline points='9 22 9 12 15 12 15 22'/>
+      </svg>
+      <span>হোম</span>
+    </a>
+    <button class='bottom-nav-item' id='mobileBottomSearchBtn' type='button'>
+      <svg fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'>
+        <circle cx='11' cy='11' r='8'/>
+        <line x1='21' x2='16.65' y1='21' y2='16.65'/>
+      </svg>
+      <span>সার্চ</span>
+    </button>
+    <button class='bottom-nav-item' id='mobileBottomMenuBtn' type='button'>
+      <svg fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'>
+        <line x1='3' x2='21' y1='12' y2='12'/>
+        <line x1='3' x2='21' y1='6' y2='6'/>
+        <line x1='3' x2='21' y1='18' y2='18'/>
+      </svg>
+      <span>মেনু</span>
+    </button>
+  </nav>
+
+  <!-- TOAST FEEDBACK -->
+  <div class='toast-popup' id='toastNotification'>লিঙ্ক কপি করা হয়েছে!</div>
+
+  <!-- THEME & CLIENT ENGINE JAVASCRIPT -->
+  <script type='text/javascript'>
+  //<![CDATA[
+  (function() {
+    'use strict';
+
+    // 1. CONFIGURATION
+    var CONFIG = {
+      siteName: "${config.siteName}",
+      telegramUrl: "${config.telegramUrl}",
+      contactEmail: "${config.contactEmail}",
+      apiBaseUrl: "${config.apiBaseUrl || ''}",
+      defaultRequiredAds: ${config.defaultRequiredAds},
+      adNetworks: ${serializedNetworks},
+      bannerAds: ${serializedBanners}
+    };
+
+    // 2. THEME MODE (LIGHT / DARK) WITH LOCALSTORAGE
+    var themeToggle = document.getElementById('themeToggleSwitch');
+    var themeIcon = document.getElementById('themeModeIcon');
+    var themeLabel = document.getElementById('themeModeLabel');
+    var themeSub = document.getElementById('themeModeSub');
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+        if (themeToggle) themeToggle.checked = true;
+        if (themeIcon) themeIcon.textContent = '🌙';
+        if (themeLabel) themeLabel.textContent = 'Dark Theme';
+        if (themeSub) themeSub.textContent = 'Switch to Light';
+      } else {
+        document.body.classList.remove('dark-mode');
+        if (themeToggle) themeToggle.checked = false;
+        if (themeIcon) themeIcon.textContent = '☀️';
+        if (themeLabel) themeLabel.textContent = 'Light Theme';
+        if (themeSub) themeSub.textContent = 'Switch to Dark';
+      }
+    }
+
+    var savedTheme = localStorage.getItem('premium_collection_theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var initialDark = savedTheme ? (savedTheme === 'dark') : prefersDark;
+    applyTheme(initialDark);
+
+    if (themeToggle) {
+      themeToggle.addEventListener('change', function() {
+        var isDark = themeToggle.checked;
+        applyTheme(isDark);
+        localStorage.setItem('premium_collection_theme', isDark ? 'dark' : 'light');
+      });
+    }
+
+    // 3. SIDE DRAWER NAVIGATION
+    var drawer = document.getElementById('sideDrawer');
+    var overlay = document.getElementById('drawerOverlay');
+    var openBtn = document.getElementById('menuOpenBtn');
+    var closeBtn = document.getElementById('drawerCloseBtn');
+    var mobileMenuBtn = document.getElementById('mobileBottomMenuBtn');
+
+    function openDrawer() {
+      if (drawer) drawer.classList.add('active');
+      if (overlay) overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      if (drawer) drawer.classList.remove('active');
+      if (overlay) overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (overlay) overlay.addEventListener('click', closeDrawer);
+    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openDrawer);
+
+    // 4. SEARCH BAR EXPAND/COLLAPSE
+    var searchBtn = document.getElementById('searchToggleBtn');
+    var searchDropdown = document.getElementById('searchDropdown');
+    var searchInput = document.getElementById('searchInputField');
+    var mobileSearchBtn = document.getElementById('mobileBottomSearchBtn');
+
+    function toggleSearch() {
+      if (!searchDropdown) return;
+      var isActive = searchDropdown.classList.toggle('active');
+      if (isActive && searchInput) {
+        setTimeout(function() { searchInput.focus(); }, 100);
+      }
+    }
+
+    if (searchBtn) searchBtn.addEventListener('click', toggleSearch);
+    if (mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        toggleSearch();
+      });
+    }
+
+    // 5. TOAST NOTIFICATION UTILITY
+    var toast = document.getElementById('toastNotification');
+    var toastTimer = null;
+    function showToast(message) {
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add('active');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() {
+        toast.classList.remove('active');
+      }, 2500);
+    }
+
+    // 6. COPY SITE LINK
+    var copyBtn = document.getElementById('copySiteLinkBtn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function() {
+        var currentUrl = window.location.origin + window.location.pathname;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(currentUrl).then(function() {
+            showToast('Copied! সাইট লিঙ্ক কপি হয়েছে');
+          }).catch(function() {
+            fallbackCopy(currentUrl);
+          });
+        } else {
+          fallbackCopy(currentUrl);
+        }
+        closeDrawer();
+      });
+    }
+
+    function fallbackCopy(text) {
+      var textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast('Copied! লিঙ্ক কপি হয়েছে');
+      } catch (err) {
+        showToast('কপি করতে ব্যর্থ হয়েছে');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // 7. SHARE SITE
+    var shareBtn = document.getElementById('shareSiteBtn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', function() {
+        var shareData = {
+          title: CONFIG.siteName,
+          text: CONFIG.siteName + ' - ' + CONFIG.siteSubtitle,
+          url: window.location.origin
+        };
+        if (navigator.share) {
+          navigator.share(shareData).catch(function(e) {});
+        } else {
+          fallbackCopy(shareData.url);
+        }
+        closeDrawer();
+      });
+    }
+
+    // 8. CARD LEVEL SHARE HANDLER
+    window.handlePostShare = function(button) {
+      var title = button.getAttribute('data-title') || document.title;
+      var url = button.getAttribute('data-url') || window.location.href;
+      if (navigator.share) {
+        navigator.share({ title: title, url: url }).catch(function() {});
+      } else {
+        fallbackCopy(url);
+      }
+    };
+
+    // 9. RESPONSIVE EMBED WRAPPER (Auto wraps iframes/videos in post body)
+    var postBody = document.getElementById('postBodyContent');
+    if (postBody) {
+      var iframes = postBody.querySelectorAll('iframe');
+      iframes.forEach(function(iframe) {
+        var parent = iframe.parentElement;
+        if (!parent.classList.contains('player-responsive-container')) {
+          var wrapper = document.createElement('div');
+          wrapper.className = 'player-responsive-container';
+          wrapper.style.borderRadius = '12px';
+          wrapper.style.overflow = 'hidden';
+          wrapper.style.margin = '1.5rem 0';
+          iframe.parentNode.insertBefore(wrapper, iframe);
+          wrapper.appendChild(iframe);
+        }
+      });
+    }
+
+    // 10. AD NETWORKS ENGINE (Bengal Ads, Monetag, GigaPub, AdsGram)
+    var defaultNetworks = [
+      { name: 'Monetag', placement: 'Direct Link / Interstitial', config: { directUrl: 'https://whomee.top/4/7829104', zoneId: '7829104', countdownSeconds: 5 } },
+      { name: 'Bengal Ads', placement: 'SmartLink / Rewarded', config: { directUrl: 'https://bengalads.net/smartlink?zone=884&source=blogger', zoneId: 'BG_ADS_ZONE_884', countdownSeconds: 5 } },
+      { name: 'GigaPub', placement: 'Native Offer / Direct Link', config: { directUrl: 'https://gigapub.com/r/gp_49012', zoneId: 'GP_49012', countdownSeconds: 5 } },
+      { name: 'AdsGram', placement: 'AdsGram SDK & Web Block', config: { directUrl: 'https://t.me/AdsgramBot?start=reward_4821', blockId: '4821', countdownSeconds: 6 } }
+    ];
+
+    function getActiveAdNetworks() {
+      if (CONFIG.adNetworks && Array.isArray(CONFIG.adNetworks) && CONFIG.adNetworks.length > 0) {
+        var filtered = CONFIG.adNetworks.filter(function(n) { return n.enabled !== false; });
+        if (filtered.length > 0) return filtered;
+      }
+      return defaultNetworks;
+    }
+
+    function getPostStorageKey(partNumber) {
+      var path = window.location.pathname.replace(/[^a-zA-Z0-9]/g, '_');
+      return 'pc_unlocked_post_' + path + '_p' + (partNumber || 1);
+    }
+
+    function getStoredProgress(partNumber) {
+      try {
+        var saved = localStorage.getItem(getPostStorageKey(partNumber));
+        if (saved) return JSON.parse(saved);
+      } catch (e) {}
+      return { completedAds: 0, requiredAds: CONFIG.defaultRequiredAds, unlocked: false };
+    }
+
+    function saveStoredProgress(partNumber, progress) {
+      try {
+        localStorage.setItem(getPostStorageKey(partNumber), JSON.stringify(progress));
+      } catch (e) {}
+    }
+
+    var localProgress = getStoredProgress(1);
+    var unlockState = {
+      completedAds: localProgress.completedAds || 0,
+      requiredAds: localProgress.requiredAds || CONFIG.defaultRequiredAds,
+      isUnlocked: localProgress.unlocked || false
+    };
+
+    // Auto-reveal if already unlocked in this browser
+    if (unlockState.isUnlocked || unlockState.completedAds >= unlockState.requiredAds) {
+      setTimeout(function() {
+        updateUnlockUI(1, true);
+      }, 100);
+    }
+
+    window.startServerAdWatch = function(partNumber) {
+      partNumber = partNumber || 1;
+      var btn = document.getElementById('watchAdBtn' + partNumber);
+      var overlay = document.getElementById('unlockOverlay' + partNumber);
+      if (!btn || btn.disabled) return;
+      btn.disabled = true;
+
+      var networks = getActiveAdNetworks();
+      var networkIndex = unlockState.completedAds % networks.length;
+      var fallbackProvider = networks[networkIndex] || networks[0];
+
+      // If backend API URL is configured, initiate real session
+      if (CONFIG.apiBaseUrl && CONFIG.apiBaseUrl.indexOf('http') === 0) {
+        fetch(CONFIG.apiBaseUrl + '/api/unlock/start-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            postId: window.location.pathname,
+            partNumber: partNumber
+          })
+        })
+        .then(function(res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          var ct = res.headers.get('content-type') || '';
+          if (ct.indexOf('application/json') === -1) throw new Error('Non-JSON response');
+          return res.json();
+        })
+        .then(function(data) {
+          if (!data) throw new Error('Empty response');
+          var provider = data.provider || fallbackProvider;
+          executeAdPresentation(partNumber, provider, data.sessionId, data.token);
+        })
+        .catch(function(err) {
+          executeAdPresentation(partNumber, fallbackProvider, null, null);
+        });
+      } else {
+        // Standalone Blogger Mode: 100% reliable client execution
+        executeAdPresentation(partNumber, fallbackProvider, null, null);
+      }
+    };
+
+    function executeAdPresentation(partNumber, provider, sessionId, token) {
+      var btn = document.getElementById('watchAdBtn' + partNumber);
+      var overlay = document.getElementById('unlockOverlay' + partNumber);
+      var cfg = provider.config || {};
+      var directUrl = provider.directUrl || cfg.directUrl || '';
+      var blockId = provider.blockId || cfg.blockId;
+      var zoneId = provider.zoneId || cfg.zoneId;
+      var countdown = Number(provider.countdownSeconds || cfg.countdownSeconds) || 5;
+
+      // Special handling for Monetag Official SDK (Zone 11699704)
+      if (provider.name === 'Monetag' && typeof window.show_11699704 === 'function') {
+        try {
+          showToast('💎 Monetag বিজ্ঞাপন প্রদর্শিত হচ্ছে...');
+          window.show_11699704().then(function() {
+            completeAdReward(partNumber, sessionId, token, true);
+          }).catch(function(err) {
+            renderAdExperienceModal(partNumber, provider, directUrl, zoneId || '11699704', countdown, sessionId, token);
+          });
+          return;
+        } catch(e) {}
+      }
+
+      // Special handling for AdsGram SDK if available in Telegram/Web environment
+      if (provider.name === 'AdsGram' && window.Adsgram && blockId) {
+        try {
+          var AdController = window.Adsgram.init({ blockId: String(blockId) });
+          showToast('💎 AdsGram বিজ্ঞাপন লোড হচ্ছে...');
+          AdController.show().then(function(result) {
+            completeAdReward(partNumber, sessionId, token, true);
+          }).catch(function(err) {
+            // If AdsGram skipped or unsupported, fallback to interactive countdown
+            renderAdExperienceModal(partNumber, provider, directUrl, zoneId || blockId, countdown, sessionId, token);
+          });
+          return;
+        } catch(e) {}
+      }
+
+      // Automatically launch Direct Link / SmartLink in new tab for Monetag, Bengal Ads, GigaPub, etc.
+      if (directUrl && (provider.openInNewTab !== false && cfg.openInNewTab !== false)) {
+        try {
+          var win = window.open(directUrl, '_blank');
+          if (!win) {
+            showToast('⚠️ পপ-আপ ব্লক থাকলে নিচের লিঙ্কে ক্লিক করুন');
+          }
+        } catch(e) {}
+      }
+
+      renderAdExperienceModal(partNumber, provider, directUrl, zoneId || blockId, countdown, sessionId, token);
+    }
+
+    function renderAdExperienceModal(partNumber, provider, directUrl, zoneTag, countdown, sessionId, token) {
+      var overlay = document.getElementById('unlockOverlay' + partNumber);
+      if (!overlay) return;
+
+      var provName = provider.name || 'Monetag';
+      var badgeBg = '#4f46e5';
+      if (provName === 'Bengal Ads') badgeBg = '#059669';
+      if (provName === 'GigaPub') badgeBg = '#0d9488';
+      if (provName === 'AdsGram') badgeBg = '#0284c7';
+
+      var directLinkHtml = '';
+      if (directUrl) {
+        directLinkHtml = '<a href="' + directUrl + '" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin:8px 0;padding:8px 14px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:8px;color:#fff;font-size:11px;font-weight:700;text-decoration:none;">' +
+          '🔗 বিজ্ঞাপনটি নতুন ট্যাবে না খুললে এখানে ক্লিক করুন (Open Ad)' +
+        '</a>';
+      }
+
+      overlay.innerHTML = '<div style="background:rgba(11,15,25,0.95);border:1.5px solid #8b5cf6;border-radius:14px;padding:20px 16px;max-width:340px;margin:0 auto;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,0.6);">' +
+        '<div style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;color:#fff;background:' + badgeBg + ';text-transform:uppercase;margin-bottom:6px;">' +
+          provName + ' Rewarded Ad' +
+        '</div>' +
+        '<div style="font-size:10px;color:#94a3b8;margin-bottom:8px;">Zone / Block: ' + (zoneTag || 'Standard') + '</div>' +
+        '<div style="background:#1e1b4b;border:1px solid #6366f1;padding:12px;border-radius:10px;margin-bottom:10px;color:#e0e7ff;font-size:12px;line-height:1.5;">' +
+          '⚡ বিজ্ঞাপনটি খোলা হয়েছে। অনুগ্রহ করে সম্পূর্ণ দেখে ফিরে আসুন।<br/>' +
+          directLinkHtml +
+        '</div>' +
+        '<div id="adTimerNotice' + partNumber + '" style="font-size:13px;font-weight:700;color:#f472b6;margin-bottom:8px;">বিজ্ঞাপন শেষ হতে বাকি: ' + countdown + 's</div>' +
+        '<div style="width:100%;height:5px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;margin-bottom:12px;">' +
+          '<div id="adTimerBar' + partNumber + '" style="width:0%;height:100%;background:linear-gradient(90deg,#8b5cf6,#ec4899);transition:width 1s linear;"></div>' +
+        '</div>' +
+        '<button id="claimRewardBtn' + partNumber + '" disabled style="width:100%;padding:10px;border-radius:8px;font-size:12px;font-weight:700;background:rgba(255,255,255,0.1);color:#94a3b8;cursor:not-allowed;border:none;">' +
+          'অপেক্ষা করুন (' + countdown + 's)...' +
+        '</button>' +
+      '</div>';
+
+      var initialDuration = countdown;
+      var timer = setInterval(function() {
+        countdown--;
+        var notice = document.getElementById('adTimerNotice' + partNumber);
+        var bar = document.getElementById('adTimerBar' + partNumber);
+        var claimBtn = document.getElementById('claimRewardBtn' + partNumber);
+
+        if (notice) notice.textContent = 'বিজ্ঞাপন শেষ হতে বাকি: ' + countdown + 's';
+        if (bar) bar.style.width = (((initialDuration - countdown) / initialDuration) * 100) + '%';
+
+        if (countdown <= 0) {
+          clearInterval(timer);
+          if (notice) {
+            notice.innerHTML = '<span style="color:#34d399;">✔ বিজ্ঞাপন সফলভাবে সম্পন্ন হয়েছে!</span>';
+          }
+          if (claimBtn) {
+            claimBtn.disabled = false;
+            claimBtn.textContent = 'পুরস্কার সংগ্রহ ও আনলক করুন (Claim Reward)';
+            claimBtn.style.background = 'linear-gradient(90deg,#10b981,#059669)';
+            claimBtn.style.color = '#ffffff';
+            claimBtn.style.cursor = 'pointer';
+            claimBtn.onclick = function() {
+              claimBtn.disabled = true;
+              claimBtn.textContent = 'যাচাই হচ্ছে...';
+              completeAdReward(partNumber, sessionId, token, false);
+            };
+          }
+        }
+      }, 1000);
+    }
+
+    function completeAdReward(partNumber, sessionId, token, skipDelay) {
+      if (sessionId && token && CONFIG.apiBaseUrl && CONFIG.apiBaseUrl.indexOf('http') === 0) {
+        fetch(CONFIG.apiBaseUrl + '/api/unlock/verify-ad', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: sessionId,
+            token: token,
+            partNumber: partNumber
+          })
+        })
+        .then(function(res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          var ct = res.headers.get('content-type') || '';
+          if (ct.indexOf('application/json') === -1) throw new Error('Non-JSON response');
+          return res.json();
+        })
+        .then(function(res) {
+          if (!res) throw new Error('Empty response');
+          if (res.completedAds !== undefined) {
+            unlockState.completedAds = res.completedAds;
+            unlockState.requiredAds = res.requiredAds || unlockState.requiredAds;
+          } else {
+            unlockState.completedAds++;
+          }
+          var isUnlocked = res.unlocked || (unlockState.completedAds >= unlockState.requiredAds);
+          saveStoredProgress(partNumber, {
+            completedAds: unlockState.completedAds,
+            requiredAds: unlockState.requiredAds,
+            unlocked: isUnlocked
+          });
+          updateUnlockUI(partNumber, isUnlocked, res.videoEmbedUrl);
+        })
+        .catch(function() {
+          advanceStandaloneProgress(partNumber);
+        });
+      } else {
+        advanceStandaloneProgress(partNumber);
+      }
+    }
+
+    function advanceStandaloneProgress(partNumber) {
+      unlockState.completedAds++;
+      var isUnlocked = unlockState.completedAds >= unlockState.requiredAds;
+      saveStoredProgress(partNumber, {
+        completedAds: unlockState.completedAds,
+        requiredAds: unlockState.requiredAds,
+        unlocked: isUnlocked
+      });
+      updateUnlockUI(partNumber, isUnlocked);
+    }
+
+    function updateUnlockUI(partNumber, isUnlocked, videoEmbedUrl) {
+      var textEl = document.getElementById('adProgressText' + partNumber);
+      var barEl = document.getElementById('adProgressBar' + partNumber);
+      var btn = document.getElementById('watchAdBtn' + partNumber);
+      var overlay = document.getElementById('unlockOverlay' + partNumber);
+      var mount = document.getElementById('actualVideoMount' + partNumber);
+
+      var percent = Math.min(100, Math.round((unlockState.completedAds / unlockState.requiredAds) * 100));
+      if (textEl) textEl.textContent = unlockState.completedAds + ' / ' + unlockState.requiredAds;
+      if (barEl) barEl.style.width = percent + '%';
+
+      if (unlockState.completedAds >= unlockState.requiredAds || isUnlocked) {
+        if (overlay) overlay.style.display = 'none';
+        if (mount) {
+          mount.style.display = 'block';
+          var rawUrl = videoEmbedUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+          var isDirect = rawUrl.indexOf('data:video/') === 0 || rawUrl.indexOf('blob:') === 0 || rawUrl.indexOf('/api/videos/') !== -1 || rawUrl.match(/\.(mp4|webm|ogg|m4v|mov|m3u8)($|\?)/i);
+          if (isDirect) {
+            mount.innerHTML = '<video controls autoplay playsinline style="width:100%;height:100%;object-fit:contain;background:#000;" src="' + rawUrl + '"></video>';
+          } else {
+            var embedUrl = rawUrl;
+            var ytMatch = rawUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/i);
+            if (ytMatch && ytMatch[1]) {
+              embedUrl = 'https://www.youtube-nocookie.com/embed/' + ytMatch[1] + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+            } else {
+              var gdriveMatch = rawUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/i);
+              if (gdriveMatch && gdriveMatch[1]) {
+                embedUrl = 'https://drive.google.com/file/d/' + gdriveMatch[1] + '/preview';
+              }
+            }
+            mount.innerHTML = '<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true" frameborder="0" height="100%" src="' + embedUrl + '" width="100%"></iframe>';
+          }
+        }
+        showToast('🎉 ভিডিও সফলভাবে আনলক হয়েছে!');
+      } else {
+        // Reset overlay for next required ad
+        if (overlay) {
+          overlay.innerHTML = '<div class="unlock-badge-icon">' +
+            '<svg fill="currentColor" height="26" viewBox="0 0 24 24" width="26"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>' +
+          '</div>' +
+          '<h4 class="unlock-title">ভিডিও লক করা আছে (Video Locked)</h4>' +
+          '<p class="unlock-desc">ভিডিওটি দেখতে অনুগ্রহ করে পরবর্তী বিজ্ঞাপনটি দেখুন।</p>' +
+          '<div class="unlock-progress-wrap">' +
+            '<div class="progress-info"><span>বিজ্ঞাপন সম্পন্ন:</span><span id="adProgressText' + partNumber + '">' + unlockState.completedAds + ' / ' + unlockState.requiredAds + '</span></div>' +
+            '<div class="progress-bar-track"><div class="progress-bar-fill" id="adProgressBar' + partNumber + '" style="width:' + percent + '%;"></div></div>' +
+          '</div>' +
+          '<button class="watch-ad-btn" id="watchAdBtn' + partNumber + '" onclick="startServerAdWatch(' + partNumber + ')" type="button">' +
+            '<svg fill="currentColor" height="18" viewBox="0 0 24 24" width="18"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
+            '<span>পরবর্তী বিজ্ঞাপন দেখুন (Next Ad)</span>' +
+          '</button>';
+        }
+      }
+    }
+
+    // 11. RENDER BANNER ADS (Initial embedded + optional API refresh)
+    function renderBannerAds(banners) {
+      if (!banners || !Array.isArray(banners)) return;
+      banners.forEach(function(banner) {
+        var placement = (banner.placement || '').replace(/_/g, '-');
+        var slot = document.getElementById('banner-' + placement);
+        if (slot && banner.code) {
+          slot.innerHTML = '<div class="banner-slot-inner">' + banner.code + '</div>';
+        }
+      });
+    }
+
+    renderBannerAds(CONFIG.bannerAds);
+
+    if (CONFIG.apiBaseUrl && CONFIG.apiBaseUrl.indexOf('http') === 0) {
+      fetch(CONFIG.apiBaseUrl + '/api/ads/public-config')
+        .then(function(r) {
+          if (!r.ok) return null;
+          var ct = r.headers.get('content-type') || '';
+          if (ct.indexOf('application/json') === -1) return null;
+          return r.json();
+        })
+        .then(function(data) {
+          if (data && data.banners) {
+            renderBannerAds(data.banners);
+          }
+          if (data && data.activeNetworks) {
+            CONFIG.adNetworks = data.activeNetworks;
+          }
+        })
+        .catch(function() {});
+    }
+
+  })();
+  //]]>
+  </script>
+</body>
+</html>`;
+}

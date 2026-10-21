@@ -1,0 +1,7 @@
+{
+  "name": "Premium Collection Blogger Theme & Admin",
+  "description": "Production-ready Blogger XML video collection theme with secure Admin Panel, multi-part video management, server-side ad unlock system, and analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
